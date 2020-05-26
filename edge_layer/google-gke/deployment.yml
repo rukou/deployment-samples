@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rukou-deployment
+spec:
+  selector:
+    matchLabels:
+      app: rukou
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: rukou
+    spec:
+      containers:
+        - name: edge
+          image: "gcr.io/rukou-io/rukou-edge"
+          env:
+            - name: PORT
+              value: "50001"
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: EDGE_HOSTS_1
+              value: sample.rukou.cloud
+            - name: ROUTES_ROUTE1_TYPE
+              value: google-pubsub
+            - name: ROUTES_ROUTE1_EDGE2LOCALTOPIC
+              value: projects/rukou-277819/topics/edge2local
+            - name: ROUTES_ROUTE1_LOCAL2EDGEPREFIX
+              value: local2edge
+            - name: ROUTES_ROUTE1_SERVICEACCOUNT
+              value: '{"type": "service_account","project_id": "rukou","private_key_id": "d311bf48","private_key": "-----BEGIN PRIVATE KEY-----\n-----END PRIVATE KEY-----\n","client_email": "rukou-role@rukou.iam.gserviceaccount.com","client_id": "1166448210","auth_uri": "https://accounts.google.com/o/oauth2/auth","token_uri": "https://oauth2.googleapis.com/token","auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs","client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/rukou-role%40rukou.iam.gserviceaccount.com"}'
+            - name: ENDPOINTS_EP1_TYPE
+              value: echo
+            - name: ENDPOINTS_EP1_SELECTOR
+              value: 'header["X-HTTP-HOST"]=="sample.rukou.cloud"'
+            
