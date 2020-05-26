@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  local:
+    image: gcr.io/rukou-io/rukou-local:latest
+    network_mode: bridge
+    environment:
+      - SOURCE_TYPE=google-pubsub
+      - SOURCE_EDGE2LOCALSUBSCRIPTION=projects/rukou-123456/subscriptions/local-subscription
+      - 'SOURCE_SERVICEACCOUNT={"type": "service_account","project_id": "rukou-123456","private_key_id": "d311bf480d165ba2aa8a33949bec69e9dedfc9cb","private_key": "-----BEGIN PRIVATE KEY-----\n-----END PRIVATE KEY-----\n","client_email": "rukou-role@rukou-123456.iam.gserviceaccount.com","client_id": "116144821159561741380","auth_uri": "https://accounts.google.com/o/oauth2/auth","token_uri": "https://oauth2.googleapis.com/token","auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs","client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/rukou-role%40rukou-123456.iam.gserviceaccount.com"}'
